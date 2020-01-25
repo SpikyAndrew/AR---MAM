@@ -34,12 +34,17 @@ public class UIMenuHandlers : MonoBehaviour
 
     public void OnNewGameButton()
     {
-        gameStateManager.NewGame();
+        GameStateManager.Singleton.NewGame();
     }
 
     public void OnNewTurnButton()
     {
-        gameStateManager.NewTurn();
+        GameStateManager.Singleton.NewTurn();
     }
 
+    public void OnBoardSpaceButton(int boardSpaceNumber)
+    {
+        GameStateManager.Singleton.ScoutBoardSpace(boardSpaceNumber);
+    }
+    
 }

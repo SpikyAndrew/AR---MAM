@@ -5,31 +5,32 @@ using UnityEngine;
 
 public class BoardSpaceRenderer : MonoBehaviour
 {
-    private int _boardSpaceNumber;
-    private List<GameObject> _penguins;
-//    private MeshRenderer antarcticBaseRenderer;
+    [SerializeField] private int boardSpaceNumber;
+    [SerializeField] private GameObject antarcticBase;
+    private Penguin[] _penguins;
         
     void Start()
     {
-        _penguins = GetComponentsInChildren<Transform>().Select(t => t.gameObject).ToList();
-        GameStateManager.Singleton.NewGameEvent += UpdateState;
-        GameStateManager.Singleton.NewTurnEvent += UpdateState;
+        _penguins = GetComponentsInChildren<Penguin>();
+        GameStateManager.Singleton.BoardUpdatedEvent += UpdateState;
         UpdateState();
     }
 
     private void UpdateState()
     {
-        BoardSpaceState boardSpaceState = GameStateManager.Singleton.BoardSpaceStates[_boardSpaceNumber];
-        foreach (GameObject penguin in _penguins)
+        BoardSpaceState boardSpaceState = GameStateManager.Singleton.BoardSpaceStates[boardSpaceNumber];
+        foreach (Penguin penguin in _penguins)
         {
-            penguin.SetActive(false);
+            penguin.gameObject.SetActive(false);
         }
         for (int i = 0; i < boardSpaceState.numberOfPenguins; i++)
         {
-            _penguins[i].SetActive(true);
+            _penguins[i].gameObject.SetActive(true);
             _penguins[i].transform.localPosition = new Vector3(Random.Range(-1f,1f), 0, Random.Range(-1f,1f));
             _penguins[i].transform.localRotation = Quaternion.Euler(0,Random.Range(0,360),0);
         }
+        if (boardSpaceState.IsAntarcticBase)
+            antarcticBase.SetActive(true);
     }  
     
 }
