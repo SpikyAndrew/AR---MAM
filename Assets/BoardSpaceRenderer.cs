@@ -29,8 +29,7 @@ public class BoardSpaceRenderer : MonoBehaviour
             _penguins[i].transform.localPosition = new Vector3(Random.Range(-1f,1f), 0, Random.Range(-1f,1f));
             _penguins[i].transform.localRotation = Quaternion.Euler(0,Random.Range(0,360),0);
         }
-        if (boardSpaceState.IsAntarcticBase)
-            antarcticBase.SetActive(true);
+        antarcticBase.SetActive(boardSpaceState.IsAntarcticBase);
     }  
     
 }

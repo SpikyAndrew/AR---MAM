@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -10,8 +12,17 @@ public class UIMenuHandlers : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject arMenu;
     [SerializeField] private GameObject selectBoardSpaceMenu;
-    [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private Text infoText;
+
+    private void Start()
+    {
+        GameStateManager.Singleton.GameOverEvent += GameOver;
+    }
+
+    private void GameOver()
+    {
+        infoText.text += "Koniec gry! Pingwiny zostały zbadane!";
+    }
 
     public void OnShowPenguinsButton()
     {
@@ -52,6 +63,16 @@ public class UIMenuHandlers : MonoBehaviour
         mainMenu.SetActive(true);
         selectBoardSpaceMenu.SetActive(false);
         infoText.text = GameStateManager.Singleton.ScoutBoardSpace(boardSpaceNumber);
-    }    
+    }
+
+    public void OnSaveGameButton()
+    { 
+        GameStateManager.Singleton.SaveGame();
+    }
+
+    public void OnLoadGameButton()
+    {
+        GameStateManager.Singleton.LoadGame();
+    }
     
 }
